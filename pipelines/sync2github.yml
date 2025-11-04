@@ -18,7 +18,7 @@ stages:
     steps:
     - checkout: self
     - script: |        
-        git remote add github https://$(GITHUB_PAT)@github.com/DeepKnowledge1/$(Build.Repository.Name).git
+        git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
 
         git push github HEAD:main --force
       displayName: 'Push to GitHub'
@@ -26,13 +26,13 @@ stages:
 
 
 
-# git remote add devops https://deepknowledge@dev.azure.com/deepknowledge/mlops-AnomaVision/_git/AnomaVision
+# git remote add devops https://aquibalicool4@dev.azure.com/aquibalicool4/Perceptr/_git/Perceptr
 # git branch -vv                                                                                                                         
 #  git push --set-upstream devops main  
 
 
 
 
-# git remote add devops https://deepknowledge@dev.azure.com/deepknowledge/mlops-AnomaVision/_git/industrial_anodet_mlops
+# git remote add devops https://aquibalicool4@dev.azure.com/aquibalicool4/Perceptr/_git/Perceptr
 # git branch -vv                                                                                                                         
 # git push --set-upstream devops main  
