@@ -17,7 +17,7 @@ stages:
       name: Default
     steps:
     - checkout: self
-    - script: |        
+    - bash: |        
         git config --global user.email "$(Build.RequestedForEmail)"
         git config --global user.name "$(Build.RequestedFor)"
 
