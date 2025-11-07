@@ -18,8 +18,18 @@ stages:
     steps:
     - checkout: self
     - script: |        
-        git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
+        git config --global user.email "$(Build.RequestedForEmail)"
+        git config --global user.name "$(Build.RequestedFor)"
 
+        # Remove github remote if it exists (suppress error if it doesn't)
+        git remote remove github 2>/dev/null || true
+        
+        git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/Perceptra.git
+
+        # git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
+        
+        git remote -v
+        
         git push github HEAD:main --force
       displayName: 'Push to GitHub'
 
