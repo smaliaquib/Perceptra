@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - develop01
+      - develop-01
 
 variables:
   - group: github_Credi
@@ -36,7 +36,7 @@ stages:
         git fetch github || true
         
         # Force push with lease (safer than --force)
-        git push github HEAD:develop01 --force-with-lease || git push github HEAD:develop01 --force
+        git push github HEAD:develop-01 --force-with-lease || git push github HEAD:develop-01 --force
       displayName: 'Push to GitHub'
       
 # trigger:
