@@ -1,10 +1,10 @@
 trigger:
   branches:
     include:
-      - develop-01
+    - develop-01
 
 variables:
-  - group: github_Credi
+- group: github_Credi
 
 stages:
 - stage: SyncToGitHub
@@ -15,19 +15,32 @@ stages:
     pool:
       name: Default
     steps:
-    - checkout: self    
+    - checkout: self
+      fetchDepth: 0
+      clean: true
+      persistCredentials: true
+    
     - bash: |
         git config --global user.email "aquibalicool3@gmail.com"
         git config --global user.name "smaliaquib"
         
+        # Verify we're on the right branch
+        git branch -a
+        git status
+        
         # Remove github remote if it exists
-        git remote remove github || echo remote not found
+        git remote remove github 2>/dev/null || echo "Remote not found"
         
         # Add github remote with PAT
         git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/Perceptra.git
         
-        # Force push with lease (safer than --force)
-        git push github HEAD:develop-01 --force
+        # Create a clean temporary directory for clone
+        cd ..
+        git clone --bare $(Build.Repository.Uri) temp-repo
+        cd temp-repo
+        
+        # Push mirror to GitHub
+        git push --mirror https://$(GITHUB_PAT)@github.com/smaliaquib/Perceptra.git --force
       displayName: 'Push to GitHub'
       
 # trigger:
