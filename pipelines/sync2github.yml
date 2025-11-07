@@ -1,8 +1,7 @@
-
 trigger:
   branches:
     include:
-      - main
+      - develop01
 
 variables:
   - group: github_Credi
@@ -17,11 +16,52 @@ stages:
       name: Default
     steps:
     - checkout: self
-    - script: |        
-        git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
-
-        git push github HEAD:main --force
+      fetchDepth: 0  # Get full history
+      persistCredentials: true
+    
+    - bash: |
+        git config --global user.email "$(Build.RequestedForEmail)"
+        git config --global user.name "$(Build.RequestedFor)"
+        
+        # Remove github remote if it exists
+        git remote remove github 2>/dev/null || true
+        
+        # Add github remote with PAT
+        git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/Perceptra.git
+        
+        # Verify remote
+        git remote -v
+        
+        # Fetch from GitHub to see current state
+        git fetch github || true
+        
+        # Force push with lease (safer than --force)
+        git push github HEAD:develop01 --force-with-lease || git push github HEAD:develop01 --force
       displayName: 'Push to GitHub'
+      
+# trigger:
+#   branches:
+#     include:
+#       - main
+
+# variables:
+#   - group: github_Credi
+
+# stages:
+# - stage: SyncToGitHub
+#   displayName: 'Sync Azure DevOps Repo to GitHub'
+#   jobs:
+#   - job: MirrorJob
+#     displayName: 'Mirror to GitHub'
+#     pool:
+#       name: Default
+#     steps:
+#     - checkout: self
+#     - script: |        
+#         git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
+
+#         git push github HEAD:main --force
+#       displayName: 'Push to GitHub'
 
 
 
