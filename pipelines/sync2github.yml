@@ -18,7 +18,8 @@ stages:
     steps:
     - checkout: self
     - script: |        
-        git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
+        git remote add github https://github.com/smaliaquib/$(Build.Repository.Name).git
+        # git remote add github https://$(GITHUB_PAT)@github.com/smaliaquib/$(Build.Repository.Name).git
 
         git push github HEAD:main --force
       displayName: 'Push to GitHub'
