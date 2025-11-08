@@ -3,6 +3,7 @@ import base64
 import io
 from PIL import Image
 
+## Testing
 class LoadTest(HttpUser):
     @task
     def test_inference(self):
